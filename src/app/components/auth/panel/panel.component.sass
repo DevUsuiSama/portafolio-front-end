@@ -1,0 +1,124 @@
+@import '../../../../assets/style/form'
+
+.min-ah-500
+    min-height: 500px
+.btn-custom-active
+    color: var(--bs-btn-active-color)
+    background-image: linear-gradient(90deg,#2fcca0 3%,#131313 5%)
+    border-color: #363636
+.btn-primary
+    --bs-btn-color: #fff
+    --bs-btn-bg: #131313
+    --bs-btn-border-color: #363636
+    --bs-btn-hover-color: #fff
+    --bs-btn-hover-bg: #363636
+    --bs-btn-hover-border-color: #444444
+    --bs-btn-focus-shadow-rgb: 49, 132, 253
+    --bs-btn-active-color: #fff
+    --bs-btn-active-bg: #444444
+    --bs-btn-active-border-color: #525252
+    --bs-btn-active-shadow: inset 0 3px 5pxrgba(0, 0, 0, 0.125)
+    --bs-btn-disabled-color: #fff
+    --bs-btn-disabled-bg: #0d6efd
+    --bs-btn-disabled-border-color: #0d6efd
+//    _____         .__        
+//   /     \ _____  |__| ____  
+//  /  \ /  \\__  \ |  |/    \ 
+// /    Y    \/ __ \|  |   |  \
+// \____|__  (____  /__|___|  /
+//         \/     \/        \/ 
+main
+    grid-column: 2
+    background-color: black
+    display: grid
+main>div
+    height: 83vh
+    display: grid
+    grid-template-rows: auto 1fr auto
+    margin: 10px
+    padding: 5px
+    border: 1px solid cyan
+    box-shadow: 0 0 20px 0 cyan
+main>div>div:first-child
+    margin: 5px 10px
+    padding: 10px
+    background-color: #1a1a1a
+main>div>div:not(:first-child)
+    overflow: auto
+    margin: 5px 10px
+    border: 1px solid gray
+    background-color: #1a1a1a
+main>div>div:nth-child(3)
+    display: flex
+    padding: 10px
+    border: none
+    justify-content: flex-end
+    gap: 5px
+// __________        __    __                 
+// \______   \__ ___/  |__/  |_  ____   ____  
+//  |    |  _/  |  \   __\   __\/  _ \ /    \ 
+//  |    |   \  |  /|  |  |  | (  <_> )   |  \
+//  |______  /____/ |__|  |__|  \____/|___|  /
+//         \/                              \/ 
+main>div>div:nth-child(3) .agregar,
+main>div>div:nth-child(3) .modificar,
+main>div>div:nth-child(3) .eliminar
+    cursor: pointer
+    appearance: none
+    border: 1px solid limegreen
+    background-color: black
+    color: white
+    padding: 5px 20px
+    transition: background-color .5s linear
+main>div>div:nth-child(3) .agregar:hover
+    background-color: limegreen
+main>div>div:nth-child(3) .modificar
+    border: 1px solid dodgerblue
+main>div>div:nth-child(3) .modificar:hover
+    background-color: dodgerblue
+main>div>div:nth-child(3) .eliminar
+    border: 1px solid red
+main>div>div:nth-child(3) .eliminar:hover
+    background-color: red
+// ___________     ___.   .__          
+// \__    ___/____ \_ |__ |  | _____   
+//   |    |  \__  \ | __ \|  | \__  \  
+//   |    |   / __ \| \_\ \  |__/ __ \_
+//   |____|  (____  /___  /____(____  /
+//                \/    \/          \/ 
+table
+    border-collapse: separate
+    width: max-content
+    border-spacing: 0
+tr
+    text-align: left
+tr:first-child
+    position: sticky
+    box-shadow: 0 6px 20px #000
+    background-color: #1d1d1d
+    top: 0
+tr:first-child th
+    border-top: solid 1.2px #7fffd4
+    border-right: solid 1.2px #7fffd4
+tr:not(:first-child) th
+    border-left: solid 1.2px #7fffd4
+    box-shadow: 5px 0 20px #000
+    position: sticky
+    left: 0
+    background-color: #1d1d1d
+    border-right: solid 1.2px #7fffd4
+tr td
+    border-right: solid 1.2px #fff
+th
+    padding: 5px
+    border-bottom: solid 1.2px
+    border-color: #7fffd4
+td
+    padding: 5px
+    border-bottom: solid 1.2px
+    border-color: #fff
+    color: white
+th
+    color: #0ff
+tr:hover td
+    background-color: #3c9ec5

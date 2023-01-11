@@ -1,0 +1,31 @@
+<div class="d-grid vh-100 min-ah-500 align-content-between" style="grid-template-rows: auto 1fr auto;">
+    <app-nav></app-nav>
+    <main role="main" class="d-grid container-fluid" style="grid-row: 2;">
+        <div class="row m-2 p-2 rounded border" style="background-color: #00000049; border-color: rgba(130, 130, 130, 0.612) !important; border-width: 2px !important; border-style: inset !important;">
+            <div class="col d-grid align-items-center m-sm-5">
+                <h1 class="text-white display-2" style="text-shadow: 0 0 0.3rem #fff;">Bienvenido a mi Portfolio, Versión Alpha 😉</h1>
+                <p class="text-white fs-4" style="text-shadow: 0 0 0.2rem #fff;">
+                    Siéntase cómodo y exploré este maravilloso prototipo <strong>SPA</strong>. Creado con Angular y Bootstrap.
+                </p>
+            </div>
+            <div class="col-lg-auto rounded border p-1" style="background-color: rgba(0, 0, 0, 0.8); border-color: rgba(91, 91, 91, 0.612) !important; border-style: inset !important; border-width: 2px !important;">
+                <div class="p-2">
+                    <h3 class="text-white text-center" style="text-shadow: 0 0 2px #fff;">Portfolios</h3>
+                </div>
+                <div class="overflow-auto h-75 text-white list-group list-group-flush gap-1">
+                    <div class="d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+                        <div class="loading"></div>
+                        <h5 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h5>
+                    </div>
+                    <p class="text-white p-2" *ngIf="nombreDeUsuarios.length === 0 && !loading">[ No se pudo cargar los portfolios... ]</p>
+                    <a class="list-group-item list-group-item-dark list-group-item-action d-flex align-items-center gap-2 rounded" *ngFor="let list of nombreDeUsuarios" [routerLink]="['/portfolio', list]">
+                        <span class="material-icons">person</span>
+                        {{list}}
+                        <span class="badge text-bg-light">private</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <app-footer></app-footer>
+</div>

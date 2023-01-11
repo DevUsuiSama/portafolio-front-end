@@ -1,0 +1,63 @@
+.border-box
+    --border-size: 3px
+    --border-angle: 0turn
+    padding: 30px !important
+    background-image: conic-gradient(from var(--border-angle), black, black 50%, #191919), conic-gradient(from var(--border-angle), transparent 20%, rgb(0, 176, 176), cyan) !important
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover
+    background-position: center center
+    background-repeat: no-repeat
+    animation: bg-spin 10s linear infinite
+    @keyframes bg-spin
+        to
+            --border-angle: 1turn
+@property --border-angle
+    syntax: "<angle>"
+    inherits: true
+    initial-value: 0turn
+.form-group
+    width: inherit
+    padding-left: 20px
+    padding-right: 20px
+.form-control:focus 
+    border-color: rgb(0 255 255) !important
+    box-shadow: 0 0 0 0.25rem rgb(0 255 255 / 25%) !important
+.btn-cyan
+    --bs-btn-color: #000
+    --bs-btn-bg: transparent
+    --bs-btn-border-color: cyan
+    --bs-btn-hover-color: #000
+    --bs-btn-hover-bg: cyan
+    --bs-btn-hover-border-color: #03eaea
+    --bs-btn-focus-shadow-rgb: 217, 164, 6
+    --bs-btn-active-color: #000
+    --bs-btn-active-bg: cyan
+    --bs-btn-active-border-color: cyan
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125)
+    --bs-btn-disabled-color: #000
+    --bs-btn-disabled-bg: transparent
+    --bs-btn-disabled-border-color: cyan
+    transition: all .8s ease
+#login:hover
+    background-color: #02b4b4 !important
+.invalid-feedback
+    display: block
+    text-shadow: -1px -1px 2px red
+.alert-danger
+    --bs-alert-color: #ffffff
+    --bs-alert-bg: #c00012
+    --bs-alert-border-color: red
+    box-shadow: 0 0 20px 1px red
+.alert-success
+    --bs-alert-color: #ffffff
+    --bs-alert-bg: #36c000
+    --bs-alert-border-color: lime
+    box-shadow: 0 0 20px 1px lime
+.bloquear-fondo
+    z-index: 1800
+    background-color: #00000073
+    position: fixed
+    transform: translate(-50%, -50%)
+    left: 50%
+    top: 50%
+    height: 100vh
+    width: 100vw

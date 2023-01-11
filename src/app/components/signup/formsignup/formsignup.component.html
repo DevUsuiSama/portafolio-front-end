@@ -1,0 +1,50 @@
+<form [formGroup]="formSignup" (ngSubmit)="onSubmit(formSignup)" class="m-2 bg-gradient p-3 border-box d-grid align-items-center justify-content-center"
+    style="width:250px" method="post">
+    <div class="form-group">
+        <h1 class="text-white">Sign Up</h1>
+        <br>
+    </div>
+    <div class="form-group">
+        <input type="text" formControlName="user" class="form-control bg-dark text-white" placeholder="Usuario">
+        <div class="invalid-feedback" *ngIf="userBox?.invalid && (userBox?.dirty || userBox?.touched)">
+            Usuario requerido, mostro!
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="email" formControlName="email" class="form-control bg-dark text-white" placeholder="Email">
+        <div class="invalid-feedback" *ngIf="emailBox?.invalid && (emailBox?.dirty || emailBox?.touched)">
+            Email requerido, mostro!
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="password" formControlName="pass" class="form-control bg-dark text-white" placeholder="Clave">
+        <div class="invalid-feedback" *ngIf="passBox?.invalid && (passBox?.dirty || passBox?.touched)">
+            Clave requerida, mostro!
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="password" formControlName="pass2" class="form-control bg-dark text-white"
+            placeholder="Repetir Clave">
+        <div class="invalid-feedback" *ngIf="passTwoBox?.invalid && (passTwoBox?.dirty || passTwoBox?.touched)">
+            Repetir la clave, crack!
+        </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center gap-2">
+        <button id="login" type="submit" class="btn btn-cyan text-white" [disabled]="formSignup.invalid">Registrarse</button>
+        <button type="button" class="btn btn-danger" [routerLink]="'/'">Cancelar</button>
+    </div>
+    <p class="position-fixed bottom-0 start-0 w-auto">
+        <ngb-alert type="danger" #dangerAlert *ngIf="errorMessage " (closed)="errorMessage  = ''">
+            {{errorMessage | json}}
+        </ngb-alert>
+    </p>
+    <app-modal></app-modal>
+</form>
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+    <div class="loading"></div>
+    <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+</div>

@@ -1,0 +1,23 @@
+<div class="bg-gradient-2 shadow-full rounded-bottom position-relative ps-3 pe-3 pb-3 mt-1 border-custom-1" style="padding-top: 50px;">
+    <button appHideElementByRol (click)="editarDetail()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
+        <span class="material-icons">edit</span>
+    </button>
+    <h3 class="text-white">{{detail.nombre === '' ? '[Agregar Nombre]' : detail.apellido + ', ' + detail.nombre}}</h3>
+    <p class="text-white fs-5">{{detail.titulo === '' ? '[Agregar Título]' : detail.titulo}}</p>
+    <p class="text-white p-0 m-0">
+        <i>{{detail.ubicacion === '' ? '[Agregar Ubicación]' : detail.ubicacion}}</i>
+    </p>
+</div>
+<app-modal #editDetail></app-modal>
+<p class="position-fixed bottom-0 start-0 w-auto" style="z-index: 1800;">
+    <ngb-alert type="success" #successAlert *ngIf="successMessage " (closed)="successMessage  = ''">
+        {{ successMessage }}
+    </ngb-alert>
+    <ngb-alert type="danger" #dangerAlert *ngIf="errorMessage " (closed)="errorMessage  = ''">
+        {{errorMessage | json}}
+    </ngb-alert>
+</p>
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+    <div class="loading"></div>
+    <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+</div>

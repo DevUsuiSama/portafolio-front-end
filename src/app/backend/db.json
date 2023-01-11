@@ -1,0 +1,20 @@
+{
+    "usuario": [
+        {
+            "id": 1,
+            "nombre_de_usuario": "DevUsuiSama",
+            "clave": "adminLegend1234",
+            "id_perfil": 1
+        }
+    ],
+    "perfil": [
+        {
+            "id": 1,
+            "rol": "Administrador"
+        },
+        {
+            "id": 2,
+            "rol": "Invitado"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+$dark: #0c0c0c
+$box-shadow: 0 .5rem 1rem $dark
+.shadow-top
+    box-shadow: 0 -0.5rem 1rem $dark
+@font-face
+    font-family: CinzelDecorative
+    src: url(../assets/font/CinzelDecorative-Regular.ttf)
+@font-face
+    font-family: CinzelDecorativeBold
+    src: url(../assets/font/CinzelDecorative-Bold.ttf)
+@font-face
+    font-family: IcelandRegular
+    src: url(../assets/font/Iceland-Regular.ttf)
+.font-cinzel-decorative
+    font-family: CinzelDecorative
+.font-cinzel-decorative-bold
+    font-family: CinzelDecorativeBold
+.font-iceland-regular
+    font-family: IcelandRegular
+::-webkit-scrollbar
+    width: 6px
+    height: 6px
+    background-color: black
+::-webkit-scrollbar-track
+    box-shadow: inset 0 0 5px #b0b0b0
+    border-radius: 10px
+::-webkit-scrollbar-thumb
+    background: #8b8b8b
+    border-radius: 10px
+::-webkit-scrollbar-thumb:hover
+    background: #757575
+.offcanvas
+    background-color: rgba(0, 0, 0, 0.8) !important
+    border-left: solid 1px white !important
+    border-top-left-radius: 5px
+    border-bottom-left-radius: 5px
+    @media screen and (max-width: 768px)
+        width: 50% !important

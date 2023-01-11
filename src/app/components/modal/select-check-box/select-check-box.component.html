@@ -1,0 +1,41 @@
+<form [formGroup]="inputSelectCheckBox?.formulario" (ngSubmit)="inputSelectCheckBox?.onSubmit(inputSelectCheckBox?.formulario)">
+    <div class="modal-body">
+        <div ngbDropdown>
+            <button type="button" class="btn btn-outline-info w-100" ngbDropdownToggle>{{inputSelectCheckBox?.titulo}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-dark border p-2 w-100 overflow-auto" style="height: 210px;">
+                <div class="gap-2 row align-items-center m-2" *ngFor="let list of inputSelectCheckBox?.selectCheckBox">
+                    <div class="form-check col-3">
+                        <input
+                            (click)="toggleEnable(list.checkbox?.formControlName, list.select?.formControlName)"
+                            class="form-check-input"
+                            type="checkbox"
+                            [attr.data-id]="list.checkbox?.value"
+                            [attr.id]="list.checkbox?.formControlName"
+                            formControlName="{{list.checkbox?.formControlName}}"
+                        />
+                        <label class="form-check-label text-white" [attr.for]="list.checkbox?.formControlName">
+                            {{list.checkbox?.label}}
+                        </label>
+                    </div>
+                    <select class="form-select bg-dark text-white col" formControlName="{{list.select?.formControlName}}">
+                        <option value="">{{list.select?.default}}</option>
+                        <option *ngFor="let option of list.select?.options" [value]="option.value">{{option.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let list of inputSelectCheckBox?.selectCheckBox">
+            <div
+                class="invalid-feedback"
+                *ngIf="inputSelectCheckBox?.formulario.get(list.select?.formControlName).invalid && (inputSelectCheckBox?.formulario.get(list.select?.formControlName).dirty || inputSelectCheckBox?.formulario.get(list.select?.formControlName).touched)"
+            >
+                Seleccione un nivel 😡
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-cyan text-white" [disabled]="inputSelectCheckBox?.formulario.invalid">Save</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    </div>
+</form>
+

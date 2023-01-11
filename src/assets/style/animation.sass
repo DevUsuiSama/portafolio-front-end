@@ -1,0 +1,41 @@
+@keyframes tada
+    0%
+        transform: scaleX(1)
+    10%,
+    20%
+        transform: scale3d(.9, .9, .9) rotate(-3deg)
+    30%,
+    50%,
+    70%,
+    90%
+        transform: scale3d(1.1, 1.1, 1.1) rotate(3deg)
+    40%,
+    60%,
+    80%
+        transform: scale3d(1.1, 1.1, 1.1) rotate(-3deg)
+    to
+        transform: scaleX(1)
+.tada:hover
+    animation: tada 1s
+@keyframes loading
+    100%
+        transform: rotate(1turn)
+.loading
+    margin-left: auto
+    margin-right: auto
+    width: 80px
+    height: 80px
+    display: grid
+.loading::before,
+.loading::after
+    content: ""
+    grid-area: 1/1
+    border: 9px ridge
+    border-radius: 50%
+    border-color: cyan cyan #0000 #0000
+    mix-blend-mode: exclusion
+    box-shadow: 0 0 4px 0 deepskyblue, inset 0 0 8px 0px deepskyblue
+    animation: loading 2s infinite linear
+.loading::after
+    border-color: #686868 #686868 #00000000 #00000000
+    animation-direction: reverse

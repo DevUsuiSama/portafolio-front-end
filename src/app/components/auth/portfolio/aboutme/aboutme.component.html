@@ -1,0 +1,25 @@
+<div class="bg-gradient-2 shadow-full rounded position-relative p-3 mt-5 border-custom-1">
+    <button appHideElementByRol (click)="editarAcercaDe()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
+        <span class="material-icons">edit</span>
+    </button>
+    <div>
+        <h3 class="text-white">Acerca De Mí</h3>
+    </div>
+    <br />
+    <div>
+        <p class="text-white">{{(aboutMe.descripcion === '') ? '[Agregar una Descripción de Tu Persona]' : aboutMe.descripcion}}</p>
+    </div>
+</div>
+<app-modal #editAboutMe></app-modal>
+<p class="position-fixed bottom-0 start-0 w-auto" style="z-index: 1800;">
+    <ngb-alert type="success" #successAlert *ngIf="successMessage " (closed)="successMessage  = ''">
+        {{ successMessage }}
+    </ngb-alert>
+    <ngb-alert type="danger" #dangerAlert *ngIf="errorMessage " (closed)="errorMessage  = ''">
+        {{errorMessage | json}}
+    </ngb-alert>
+</p>
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+    <div class="loading"></div>
+    <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+</div>

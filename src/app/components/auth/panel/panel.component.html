@@ -1,0 +1,98 @@
+<div class="d-grid vh-100 min-ah-500" style="grid-template-rows: auto 1fr;" appNoRightClick>
+    <header class="p-3 bg-dark d-flex justify-content-between" style="border-bottom: 1px solid #0ff; box-shadow: 0 0 20px 0 #0ff; grid-row: 1; z-index: 1; position: relative;">
+        <h1 class="m-0 text-white" style="text-shadow: 0 0 0.2rem #fff;">Panel 1.0 by DevUsuiSama</h1>
+        <button *ngIf="btncanvas" class="btn btn-outline-light mb-2 me-2 d-grid align-items-center" (click)="openEnd(contentCanvas)">
+            <span class="material-icons">menu</span>
+        </button>
+        <ng-template #contentCanvas let-offcanvas>
+            <div appNoRightClick class="h-100">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title text-white-50">Menú</h4>
+                    <button type="button" class="btn-close-white btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+                </div>
+                <div class="offcanvas-body d-grid gap-1 align-content-start">
+                    <div id="navoptions" class="list-group list-group-flush gap-1">
+                        <a class="btn btn-primary w-100 btn-custom-active rounded-0" role="button">Usuarios</a>
+                        <a class="btn btn-primary w-100 rounded-0" role="button" onclick="window.location.href = ''">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </header>
+    <div class="d-grid" style="grid-template-columns: max-content; grid-row: 2;">
+        <nav *ngIf="nav1" class="d-grid gap-1 align-content-start p-1" style="grid-column: 1; width: 200px; border-right: 1px solid #0ff; box-shadow: 0 0 20px 0 #0ff;">
+            <a class="btn btn-primary w-100 btn-custom-active rounded-0" role="button">Usuarios</a>
+            <a class="btn btn-primary w-100 rounded-0" role="button" onclick="window.location.href = ''">Volver</a>
+        </nav>
+        <main role="main">
+            <div>
+                <div>
+                    <h2 class="text-white m-0">Usuarios</h2>
+                </div>
+                <div>
+                    <table #tableUser>
+                        <tbody>
+                            <tr>
+                                <th>[✔️]</th>
+                                <th>ID</th>
+                                <th>Nombre de Usuario</th>
+                                <th>Email</th>
+                                <th>Contraseña</th>
+                                <th>Perfil</th>
+                            </tr>
+                            <tr [attr.data-id]="list.id" *ngFor="let list of user">
+                                <td>
+                                    <input #checkBox (click)="soloUnCheckBoxSeleccionado(tableUser, checkBox)" [attr.data-id]="list.id" [attr.data-perfil]="list.perfil" class="form-check-input" type="checkbox" value="" />
+                                </td>
+                                <td>{{list.id}}</td>
+                                <td>{{list.nombreDeUsuario}}</td>
+                                <td>{{list.email}}</td>
+                                <td>{{list.clave}}</td>
+                                <td class="d-flex gap-2">
+                                    <div *ngFor="let list2 of list.perfil">|{{list2}}|</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button class="modificar" (click)="editar(tableUser)">Editar</button>
+                    <button class="eliminar" (click)="eliminar(tableUser)">Eliminar</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div appNoRightClick>
+        <div class="modal-header">
+            <h4 class="modal-title">Editar</h4>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(tableUser)">
+            <div class="modal-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check1" formControlName="admin" />
+                    <label class="form-check-label text-white" for="check1">
+                        Conceder Rol Administrador
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-cyan text-white">Save</button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<p class="position-fixed bottom-0 start-0 w-auto" style="z-index: 1800;">
+    <ngb-alert type="success" #successAlert *ngIf="successMessage " (closed)="successMessage  = ''">
+        {{ successMessage }}
+    </ngb-alert>
+    <ngb-alert type="danger" #dangerAlert *ngIf="errorMessage " (closed)="errorMessage  = ''">
+        {{errorMessage | json}}
+    </ngb-alert>
+</p>
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+    <div class="loading"></div>
+    <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+</div>

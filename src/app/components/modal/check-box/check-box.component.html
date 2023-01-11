@@ -1,0 +1,25 @@
+<form [formGroup]="inputCheckBox?.formulario" (ngSubmit)="inputCheckBox?.onSubmit(inputCheckBox?.formulario)">
+    <div class="modal-body">
+        <div ngbDropdown>
+            <button type="button" class="btn btn-outline-info w-100" ngbDropdownToggle>{{inputCheckBox?.titulo}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-dark border p-2 w-100 overflow-auto" style="height: 210px;">
+                <div class="gap-2 form-check m-2" *ngFor="let list of inputCheckBox?.checkbox">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [attr.data-id]="list.value"
+                        [attr.id]="list.formControlName"
+                        formControlName="{{list.formControlName}}"
+                    />
+                    <label class="form-check-label text-white" [attr.for]="list.formControlName">
+                        {{list.label}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-cyan text-white">Save</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    </div>
+</form>

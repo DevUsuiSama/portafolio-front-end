@@ -1,0 +1,101 @@
+<ng-template #content let-modal>
+    <div appNoRightClick>
+        <div class="modal-header">
+            <h4 class="modal-title">{{ titleModal }}</h4>
+        </div>
+        <div *ngIf="!stateCheckBox && !stateSCheckBox && !inputElement.length">
+            <div class="modal-body">
+                <p *ngIf="!button.length">{{ message }}</p>
+                <div class="d-grid gap-2" *ngIf="button.length">
+                    <button (click)="modal.close('Close click')" class="btn btn-outline-warning" *ngFor="let list of button" [routerLink]="list.routerLink">{{ list.title }}</button>
+                </div>
+            </div>
+            <div class="modal-footer" *ngIf="!button.length">
+                <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+            </div>
+        </div>        
+        <!-- 
+            ___                          _            _       
+           / __\__  _ __ _ __ ___  _   _| | __ _ _ __(_) ___  
+          / _\/ _ \| '__| '_ ` _ \| | | | |/ _` | '__| |/ _ \ 
+         / / | (_) | |  | | | | | | |_| | | (_| | |  | | (_) |
+         \/   \___/|_|  |_| |_| |_|\__,_|_|\__,_|_|  |_|\___/ 
+        -->
+        <app-select-check-box [modal]="modal" [inputSelectCheckBox]="inputSelectCheckBox" *ngIf="stateSCheckBox"></app-select-check-box>
+        <app-check-box [modal]="modal" [inputCheckBox]="inputCheckBox" *ngIf="stateCheckBox"></app-check-box>
+        <form [formGroup]="form" (ngSubmit)="lambda(form)" *ngIf="inputElement.length">
+            <div class="modal-body">
+                <div>
+                    <div class="input-group" *ngFor="let list of inputElement" [ngClass]="list.class">
+                        <input
+                            onclick="this.setSelectionRange(0, this.value.length)"
+                            *ngIf="!(list.type === 'select' || list.type === 'textarea' || list.type === 'date' || list.type === 'checkbox')"
+                            class="form-control bg-dark text-white"
+                            [attr.type]="list.type"
+                            formControlName="{{list.formControlName}}"
+                            [attr.placeholder]="list.placeholder"
+                        />
+                        <div *ngIf="list.type === 'date' && !list.disabled" class="input-group">
+                            <input
+                                class="form-control bg-dark text-white"
+                                [attr.placeholder]="list.placeholder"
+                                formControlName="{{list.formControlName}}"
+                                [displayMonths]="1"
+                                [navigation]="'select'"
+                                [outsideDays]="'visible'"
+                                [showWeekNumbers]="false"
+                                ngbDatepicker
+                                #d="ngbDatepicker"
+                            />
+                            <button class="btn btn-outline-light d-grid justify-content-center align-content-center" (click)="d.toggle()" type="button">
+                                <span class="material-icons">calendar_month</span>
+                            </button>
+                        </div>
+                        <div *ngIf="list.type === 'date' && list.disabled" class="input-group">
+                            <input
+                                class="form-control bg-dark text-white"
+                                [attr.placeholder]="list.placeholder"
+                                formControlName="{{list.formControlName}}"
+                                [displayMonths]="1"
+                                [navigation]="'select'"
+                                [outsideDays]="'visible'"
+                                [showWeekNumbers]="false"
+                                ngbDatepicker
+                                #d="ngbDatepicker"
+                            />
+                            <button class="btn btn-outline-light d-grid justify-content-center align-content-center" (click)="d.toggle()" type="button">
+                                <span class="material-icons">calendar_month</span>
+                            </button>
+                        </div>
+                        <div *ngIf="list.type === 'checkbox'" class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="{{list.formControlName}}" (click)="toggleDisabled()" />
+                            <label class="form-check-label" for="flexCheckDefault">
+                                {{list.placeholder}}
+                            </label>
+                        </div>
+                        <select *ngIf="list.type === 'select'" class="form-select bg-dark text-white" formControlName="{{list.formControlName}}">
+                            <option value="">{{list.placeholder}}</option>
+                            <option *ngFor="let option of list.options" [value]="option">{{option}}</option>
+                        </select>
+                        <textarea
+                            onclick="this.setSelectionRange(0, this.value.length)"
+                            *ngIf="list.type === 'textarea'"
+                            class="form-control bg-dark text-white"
+                            rows="4"
+                            formControlName="{{list.formControlName}}"
+                            [attr.placeholder]="list.placeholder"
+                            style="resize: none;"
+                        ></textarea>
+                        <div class="invalid-feedback" *ngIf="form.get(list.formControlName).invalid && (form.get(list.formControlName).dirty || form.get(list.formControlName).touched)">
+                            {{ list.span }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-cyan text-white" [disabled]="form.invalid">Save</button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+            </div>
+        </form>        
+    </div>
+</ng-template>
