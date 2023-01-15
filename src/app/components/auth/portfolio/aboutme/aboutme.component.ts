@@ -18,7 +18,7 @@ export class AboutmeComponent implements OnInit {
   aboutMe: AboutMe = new AboutMe;
   errorMessage: string = '';
   successMessage: string = '';
-  loading: boolean = false;
+  loading: boolean[] = [false, false];
 
   @ViewChild('editAboutMe', { static: false }) editAboutMe?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -41,12 +41,15 @@ export class AboutmeComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/about_me/get_description/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         if (res.text !== null)
           this.aboutMe.descripcion = res.text;
       },
       error: () => {
+        this.loading[1] = false;
         console.error('AboutMe: Request failed with error');
       },
       complete: () => {
@@ -57,7 +60,7 @@ export class AboutmeComponent implements OnInit {
 
   editarAcercaDe() {
     const MODAL = this.editAboutMe?.openVerticallyCentered(this.editAboutMe?.content);
-    
+
     this.editAboutMe?.setTitleModal('Acerca De Mí');
     this.editAboutMe?.generateInput([{
       type: 'textarea',
@@ -69,8 +72,8 @@ export class AboutmeComponent implements OnInit {
     }), (form: any) => {
       const ROUTE_PARAM = this.route.snapshot.paramMap;
       const USERNAME: string | any = ROUTE_PARAM.get('username');
-      
-      this.loading = true;
+
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
 
       this.fetch.postServerParams('api/portfolio/about_me/save',
@@ -79,7 +82,7 @@ export class AboutmeComponent implements OnInit {
           .append('description', form.get('descripcion').value)
       ).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.aboutMe.descripcion = form.get('descripcion').value;
@@ -87,7 +90,7 @@ export class AboutmeComponent implements OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('AboutMe: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

@@ -71,7 +71,7 @@ export class EducationComponent implements OnInit {
     class: 'mt-2',
     disabled: true
   }];
-  loading: boolean = false;
+  loading: boolean[] = [false, false];
 
   @ViewChild('modalEducation', { static: false }) modalEducation?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -81,11 +81,14 @@ export class EducationComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/education/get_education/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.education = res;
       },
       error: () => {
+        this.loading[1] = false;
         console.error('Education: Request failed with error');
       },
       complete: () => {
@@ -167,7 +170,7 @@ export class EducationComponent implements OnInit {
       }
 
       if (this.errorMessage === '') {
-        this.loading = true;
+        this.loading[0] = true;
         document.body.style.overflowY = 'hidden';
 
         this.fetch.postServer(`api/portfolio/education/save/${USERNAME}`, {
@@ -180,7 +183,7 @@ export class EducationComponent implements OnInit {
           fechaFinal: AUX_EDUCATION.fechaFinal
         }).subscribe({
           next: (data) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             this.successMessage = data.message;
             this.consultarTablaEducacion();
@@ -188,7 +191,7 @@ export class EducationComponent implements OnInit {
             MODAL?.close('Close click');
           },
           error: (error) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             console.error('Education: Request failed with error');
             this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -273,7 +276,7 @@ export class EducationComponent implements OnInit {
       }
 
       if (this.errorMessage === '') {
-        this.loading = true;
+        this.loading[0] = true;
         document.body.style.overflowY = 'hidden';
 
         this.fetch.putServer(`api/portfolio/education/update/${ID}`, {
@@ -286,7 +289,7 @@ export class EducationComponent implements OnInit {
           fechaFinal: AUX_EDUCATION.fechaFinal
         }).subscribe({
           next: (data) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             this.successMessage = data.message;
             this.consultarTablaEducacion();
@@ -294,7 +297,7 @@ export class EducationComponent implements OnInit {
             modal?.close('Close click');
           },
           error: (error) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             console.error('Education: Request failed with error');
             this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -310,18 +313,18 @@ export class EducationComponent implements OnInit {
 
   eliminar(element: HTMLDivElement) {
     const ID: number = Number(element.getAttribute('data-id'));
-    this.loading = true;
+    this.loading[0] = true;
     document.body.style.overflowY = 'hidden';
     this.fetch.deleteServer(`api/portfolio/education/delete/${ID}`).subscribe({
       next: (data) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         this.successMessage = data.message;
         this.consultarTablaEducacion();
         this._success.next('');
       },
       error: (error) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         console.error('Education: Request failed with error');
         this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

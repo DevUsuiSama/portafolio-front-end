@@ -20,7 +20,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
   imgProfile: Img = new Img;
   errorMessage: string = '';
   successMessage: string = '';
-  loading: boolean = false;
+  loading: boolean[] = [false, false, false];
 
   @ViewChild(NavComponent) nav?: NavComponent;
   @ViewChild('edit', { static: false }) edit?: ModalComponent;
@@ -58,12 +58,15 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
     const ROUTER_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTER_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/banner/get_url/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.imgBanner.src = res.text;
         this.imgBanner.alt = 'banner';
       },
       error: () => {
+        this.loading[1] = false;
         console.error('Banner: Request failed with error');
       },
       complete: () => {
@@ -71,12 +74,15 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
       }
     });
 
+    this.loading[2] = true;
     this.fetch.getServer(`api/portfolio/profile_picture/get_url/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[2] = false;
         this.imgProfile.src = res.text;
         this.imgProfile.alt = 'profile';
       },
       error: () => {
+        this.loading[2] = false;
         console.error('ProfilePicture: Request failed with error');
       },
       complete: () => {
@@ -167,7 +173,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
       const ROUTE_PARAM = this.route.snapshot.paramMap;
       const USERNAME: string | any = ROUTE_PARAM.get('username');
 
-      this.loading = true;
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
 
       this.fetch.postServerParams('api/portfolio/banner/save',
@@ -176,7 +182,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
           .append('url', form.get('banner').value)
       ).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.imgBanner.src = form.get('banner').value;
@@ -185,7 +191,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('Banner: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -212,17 +218,17 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
     }), (form: any) => {
       const ROUTE_PARAM = this.route.snapshot.paramMap;
       const USERNAME: string | any = ROUTE_PARAM.get('username');
-      
-      this.loading = true;
+
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
-      
+
       this.fetch.postServerParams('api/portfolio/profile_picture/save',
         new HttpParams()
           .append('username', USERNAME)
           .append('url', form.get('profile').value)
       ).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.imgProfile.src = form.get('profile').value;
@@ -231,7 +237,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('ProfilePicture: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

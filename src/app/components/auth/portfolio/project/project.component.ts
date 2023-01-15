@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +17,7 @@ export class ProjectComponent implements OnInit {
   project: Project[] = [];
   errorMessage: string = '';
   successMessage: string = '';
-  loading: boolean = false;
+  loading: boolean[] = [false, false];
 
   @ViewChild('modalProject', { static: false }) modalProject?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -28,11 +27,14 @@ export class ProjectComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/project/get_project/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.project = res;
       },
       error: () => {
+        this.loading[1] = false;
         console.error('Project: Request failed with error');
       },
       complete: () => {
@@ -94,7 +96,7 @@ export class ProjectComponent implements OnInit {
       const ROUTE_PARAM = this.route.snapshot.paramMap;
       const USERNAME: string | any = ROUTE_PARAM.get('username');
 
-      this.loading = true;
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
 
       this.fetch.postServer(`api/portfolio/project/save/${USERNAME}`, {
@@ -104,7 +106,7 @@ export class ProjectComponent implements OnInit {
         repositorio: formulario.get('repositorio')?.value
       }).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.consultarTablaProyecto();
@@ -112,7 +114,7 @@ export class ProjectComponent implements OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('Project: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -166,7 +168,7 @@ export class ProjectComponent implements OnInit {
       imagen: new FormControl(this.project[index].imagen, [Validators.required, Validators.minLength(5), Validators.maxLength(300)]),
       repositorio: new FormControl(this.project[index].repositorio, [Validators.required, Validators.minLength(5), Validators.maxLength(300)])
     }), (formulario: FormGroup) => {
-      this.loading = true;
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
 
       this.fetch.putServer(`api/portfolio/project/update/${ID}`, {
@@ -176,7 +178,7 @@ export class ProjectComponent implements OnInit {
         repositorio: formulario.get('repositorio')?.value
       }).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.consultarTablaProyecto();
@@ -184,7 +186,7 @@ export class ProjectComponent implements OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('Project: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -200,18 +202,18 @@ export class ProjectComponent implements OnInit {
   eliminar(element: HTMLDivElement): void {
     const ID: number = Number(element.getAttribute('data-id'));
 
-    this.loading = true;
+    this.loading[0] = true;
     document.body.style.overflowY = 'hidden';
     this.fetch.deleteServer(`api/portfolio/project/delete/${ID}`).subscribe({
       next: (data) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         this.successMessage = data.message;
         this.consultarTablaProyecto();
         this._success.next('');
       },
       error: (error) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         console.error('Project: Request failed with error');
         this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

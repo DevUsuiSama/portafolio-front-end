@@ -1,39 +1,37 @@
 <div class="bg-gradient-2 shadow-full rounded position-relative p-3 mt-5 border-custom-1">
-    <button appHideElementByRol (click)="agregar()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
+    <button *ngIf="!loading[1]" appHideElementByRol (click)="agregar()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
         <span class="material-icons">add</span>
     </button>
     <h3 class="text-white m-0 p-0">Habilidades Duras</h3>
     <br />
     <div class="row gap-2">
-        <div
-            #listHard
-            [attr.id]="'PHS-' + i"
-            class="col rounded p-3 border-custom-1 shadow-full d-grid gap-2 zoom"
-            style="min-width: 190px !important;"
-            *ngFor="let list of hardSkills;let i = index"
-            [attr.data-id]="list.id"
-            [ngClass]="classCol[i]"
-        >
-            <a target="_blank" rel="noreferrer" ngbTooltip="{{list.nombre}}" tooltipClass="my-custom-tooltip" class="text-center position-relative">
-                <div class="d-flex position-absolute w-auto end-0">
-                    <button appHideElementByRol (click)="eliminar(listHard)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
-                        <span class="material-icons">delete</span>
-                    </button>
-                </div>
-                <img
-                    (click)="window.open(list.sitioweb, '_blank')"
-                    [attr.src]="list.imagen"
-                    alt="arduino"
-                    width="120"
-                    height="120"
-                    class="shadow-full p-3 rounded-3 tada"
-                    style="background-color: #00000054; border: 2px #69696964; border-style: inset; cursor: pointer;"
-                />
-            </a>
-            <div *ngIf="classProgress[i] !== undefined">
-                <div class="progress shadow-full" [ngClass]="classProgress[i][0]">
-                    <div class="shadow-sm progress-bar progress-bar-striped" [ngClass]="classProgress[i][1]" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [attr.style]="classProgress[i][2]">
-                        {{levelSkills[i].nombre}}
+        <div class="d-grid justify-content-center align-content-center gap-4" *ngIf="loading[1]">
+            <div class="loading"></div>
+            <h5 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h5>
+        </div>
+        <div #listHard [attr.id]="'PHS-' + i" class="col" style="min-width: 190px !important; padding: 0;" *ngFor="let list of hardSkills;let i = index" [attr.data-id]="list.id">
+            <div *ngIf="!loading[1]" class="rounded p-3 border-custom-1 shadow-full zoom d-grid gap-2" [ngClass]="classCol[i]">
+                <a target="_blank" rel="noreferrer" ngbTooltip="{{list.nombre}}" tooltipClass="my-custom-tooltip" class="text-center position-relative">
+                    <div class="d-flex position-absolute w-auto end-0">
+                        <button appHideElementByRol (click)="eliminar(listHard)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </div>
+                    <img
+                        (click)="window.open(list.sitioweb, '_blank')"
+                        [attr.src]="list.imagen"
+                        alt="arduino"
+                        width="120"
+                        height="120"
+                        class="shadow-full p-3 rounded-3 tada"
+                        style="background-color: #00000054; border: 2px #69696964; border-style: inset; cursor: pointer;"
+                    />
+                </a>
+                <div *ngIf="classProgress[i] !== undefined">
+                    <div class="progress shadow-full" [ngClass]="classProgress[i][0]">
+                        <div class="shadow-sm progress-bar progress-bar-striped" [ngClass]="classProgress[i][1]" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [attr.style]="classProgress[i][2]">
+                            {{levelSkills[i].nombre}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -41,27 +39,26 @@
     </div>
 </div>
 <div class="bg-gradient-2 shadow-full rounded position-relative p-3 mt-5 border-custom-1">
-    <button appHideElementByRol (click)="agregarSoftSkills()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
+    <button *ngIf="!loading[2]" appHideElementByRol (click)="agregarSoftSkills()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
         <span class="material-icons">add</span>
     </button>
     <h3 class="text-white m-0 p-0">Habilidades Blandas</h3>
     <br />
     <div class="row gap-2">
-        <div
-            #listSoft
-            [attr.id]="'PSS-' + i"
-            class="col rounded p-4 border-custom-1 shadow-full gap-2 zoom bg-gradient-soft d-grid"
-            style="min-width: 200px !important;"
-            *ngFor="let list of softSkills;let i = index"
-            [attr.data-id]="list.id"
-        >
-            <div class="d-grid align-content-center position-relative">
-                <div class="d-flex position-absolute w-auto end-0">
-                    <button appHideElementByRol (click)="eliminarSoftSkills(listSoft)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
-                        <span class="material-icons">delete</span>
-                    </button>
+        <div class="d-grid justify-content-center align-content-center gap-4" *ngIf="loading[2]">
+            <div class="loading"></div>
+            <h5 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h5>
+        </div>
+        <div #listSoft [attr.id]="'PSS-' + i" class="col" style="min-width: 200px !important; padding: 0;" *ngFor="let list of softSkills;let i = index" [attr.data-id]="list.id">
+            <div *ngIf="!loading[2]" class="rounded p-4 border-custom-1 shadow-full gap-2 zoom bg-gradient-soft d-grid h-100">
+                <div class="d-grid align-content-center position-relative">
+                    <div class="d-flex position-absolute w-auto end-0">
+                        <button appHideElementByRol (click)="eliminarSoftSkills(listSoft)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </div>
+                    <h3 class="text-center text-white shadow-full p-3 rounded-3 m-0 w-100" style="background-color: #00000054; border: 2px #69696964; border-style: inset; cursor: not-allowed;">{{list.nombre}}</h3>
                 </div>
-                <h3 class="text-center text-white shadow-full p-3 rounded-3 m-0 w-100" style="background-color: #00000054; border: 2px #69696964; border-style: inset; cursor: not-allowed;">{{list.nombre}}</h3>
             </div>
         </div>
     </div>
@@ -75,7 +72,7 @@
         {{errorMessage | json}}
     </ngb-alert>
 </p>
-<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading[0]">
     <div class="loading"></div>
     <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
 </div>

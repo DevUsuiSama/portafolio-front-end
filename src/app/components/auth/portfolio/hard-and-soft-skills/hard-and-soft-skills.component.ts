@@ -48,7 +48,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
   checkboxSeleccionados2: boolean[] = new Array(10);
   selectSeleccionados: string[] = new Array(17);
   window = window;
-  loading: boolean = false;
+  loading: boolean[] = [false, false, false];
 
   @ViewChild('modalSkills', { static: false }) modalSkills?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -58,8 +58,10 @@ export class HardAndSoftSkillsComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/hardskills/get_hardskills/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.hardSkills = res;
         this.classCol = [];
         this.checkboxSeleccionados.fill(false);;
@@ -137,6 +139,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
         });
       },
       error: () => {
+        this.loading[1] = false;
         console.error('HardSkills: Request failed with error');
       },
       complete: () => {
@@ -149,8 +152,10 @@ export class HardAndSoftSkillsComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/levelskills/get_levelskills/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.classProgress = [];
         this.selectSeleccionados.fill('');
         this.levelSkills = res;
@@ -184,6 +189,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
         });
       },
       error: () => {
+        this.loading[1] = false;
         console.error('LevelSkills: Request failed with error');
       },
       complete: () => {
@@ -196,8 +202,10 @@ export class HardAndSoftSkillsComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[2] = true;
     this.fetch.getServer(`api/portfolio/softskills/get_softskills/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[2] = false;
         this.softSkills = res;
         this.checkboxSeleccionados2.fill(false);
         this.softSkills.forEach((e) => {
@@ -236,6 +244,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
         });
       },
       error: () => {
+        this.loading[2] = false;
         console.error('SoftSkills: Request failed with error');
       },
       complete: () => {
@@ -318,7 +327,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
             const ID_PORTFOLIO_HARD_SKILLS: HTMLDivElement | any = document.getElementById('PHS-' + contador);
             contador++;
 
-            this.loading = true;
+            this.loading[0] = true;
             document.body.style.overflowY = 'hidden';
 
             this.fetch.postServerParams(
@@ -330,7 +339,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
                 .append('idLevelSkills', ID_LEVEL_SKILLS)
             ).subscribe({
               next: (data) => {
-                this.loading = false;
+                this.loading[0] = false;
                 document.body.style.overflowY = 'scroll';
                 this.successMessage = data.message;
                 this.consultarTablaHabilidadesNivel();
@@ -339,7 +348,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
                 MODAL?.close('Close click');
               },
               error: (error) => {
-                this.loading = false;
+                this.loading[0] = false;
                 document.body.style.overflowY = 'scroll';
                 console.error('HardSkills: Request failed with error');
                 this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -362,11 +371,11 @@ export class HardAndSoftSkillsComponent implements OnInit {
 
   eliminar(element: HTMLDivElement): void {
     const ID: number = Number(element.getAttribute('data-id'));
-    this.loading = true;
+    this.loading[0] = true;
     document.body.style.overflowY = 'hidden';
     this.fetch.deleteServer(`api/portfolio/hardskills/delete/${ID}`).subscribe({
       next: (data) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         this.successMessage = data.message;
         this.consultarTablaHabilidadesNivel();
@@ -374,7 +383,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
         this._success.next('');
       },
       error: (error) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         console.error('HardSkills: Request failed with error');
         this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -456,7 +465,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
           const ID_PORTFOLIO_SOFT_SKILLS: HTMLDivElement | any = document.getElementById('PSS-' + contador);
           contador++;
 
-          this.loading = true;
+          this.loading[0] = true;
           document.body.style.overflowY = 'hidden';
 
           this.fetch.postServerParams(
@@ -467,7 +476,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
               .append('idSoftSkills', ID_SOFT_SKILLS)
           ).subscribe({
             next: (data) => {
-              this.loading = false;
+              this.loading[0] = false;
               document.body.style.overflowY = 'scroll';
               this.successMessage = data.message;
               this.consultarTablaHabilidadesBlandas();
@@ -475,7 +484,7 @@ export class HardAndSoftSkillsComponent implements OnInit {
               MODAL?.close('Close click');
             },
             error: (error) => {
-              this.loading = false;
+              this.loading[0] = false;
               document.body.style.overflowY = 'scroll';
               console.error('HardSkills: Request failed with error');
               this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -497,18 +506,18 @@ export class HardAndSoftSkillsComponent implements OnInit {
 
   eliminarSoftSkills(element: HTMLDivElement): void {
     const ID: number = Number(element.getAttribute('data-id'));
-    this.loading = true;
+    this.loading[0] = true;
     document.body.style.overflowY = 'hidden';
     this.fetch.deleteServer(`api/portfolio/softskills/delete/${ID}`).subscribe({
       next: (data) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         this.successMessage = data.message;
         this.consultarTablaHabilidadesBlandas();
         this._success.next('');
       },
       error: (error) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         console.error('HardSkills: Request failed with error');
         this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

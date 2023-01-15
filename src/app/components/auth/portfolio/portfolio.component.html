@@ -2,13 +2,20 @@
     <app-nav class="sticky-top bg-black"></app-nav>
     <div id="div1" class="bg-dark-2 mt-3 mb-3 p-3 container rounded border-cyan">
         <div class="shadow-full position-relative p-1 rounded-top border-custom-1" style="height: 350px;">
-            <button appHideElementByRol (click)="editarBanner()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 rounded-pill">
+            <div class="d-grid justify-content-center align-content-center gap-4 position-absolute" style="transform: translate(-50%, -50%); top: 50%; left: 50%;" *ngIf="loading[1]">
+                <div class="loading"></div>
+                <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+            </div>
+            <button *ngIf="!loading[1]" appHideElementByRol (click)="editarBanner()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 rounded-pill">
                 <span class="material-icons">edit</span>
             </button>
             <img *ngIf="imgBanner.src?.length" [attr.src]="imgBanner.src" [attr.alt]="imgBanner.alt" class="w-100 h-100 rounded bg-dark" style="border: 2px solid black;" />
             <div id="profile" class="p-1 shadow-full rounded-circle border-2 border-dark position-absolute" style="left: 80px; bottom: -40px; height: 170px; width: 170px; z-index: 1000;">
                 <div class="bg-dark-2 rounded-circle h-100 w-100">
-                    <button appHideElementByRol (click)="editarProfile()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute rounded-pill" style="bottom: 20px; right: -30px;">
+                    <div class="d-grid justify-content-center align-content-center gap-4 position-absolute" style="transform: translate(-50%, -50%); top: 50%; left: 50%;" *ngIf="loading[2]">
+                        <div class="loading"></div>
+                    </div>
+                    <button *ngIf="!loading[2]" appHideElementByRol (click)="editarProfile()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute rounded-pill" style="bottom: 20px; right: -30px;">
                         <span class="material-icons">edit</span>
                     </button>
                     <img *ngIf="imgProfile.src?.length" [attr.src]="imgProfile.src" [attr.alt]="imgProfile.alt" class="rounded-circle h-100 w-100" />
@@ -32,7 +39,7 @@
         {{errorMessage | json}}
     </ngb-alert>
 </p>
-<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading[0]">
     <div class="loading"></div>
     <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
 </div>

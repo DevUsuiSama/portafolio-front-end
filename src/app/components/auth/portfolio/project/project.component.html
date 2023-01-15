@@ -1,29 +1,35 @@
 <div class="bg-gradient-2 shadow-full rounded position-relative p-3 mt-5 border-custom-1">
-    <button appHideElementByRol (click)="agregar()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
+    <button *ngIf="!loading[1]" appHideElementByRol (click)="agregar()" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 position-absolute end-0 top-0 rounded-pill">
         <span class="material-icons">add</span>
     </button>
     <h3 class="text-white m-0 p-0">Proyectos</h3>
     <br />
-    <div #listProject [attr.data-id]="list.id" *ngFor="let list of project" class="position-relative">
-        <div class="d-flex position-absolute w-auto end-0" style="top: 10px;">
-            <button appHideElementByRol (click)="editar(listProject)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
-                <span class="material-icons">edit</span>
-            </button>
-            <button appHideElementByRol (click)="eliminar(listProject)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
-                <span class="material-icons">delete</span>
-            </button>
-        </div>
-        <hr class="mt-2 mb-3 bg-white" style="height: 2px;" />
-        <div class="container">
-            <h5 class="text-white">{{list.titulo}}</h5>
-            <p class="text-white">
-                <small>{{list.descripcion}}</small>
-            </p>
-        </div>
-        <div class="text-center">
-            <a [attr.href]="list.repositorio" target="_blank">
-                <img [attr.src]="list.imagen" [attr.alt]="list.titulo" class="img-thumbnail tada" width="700px" />
-            </a>
+    <div class="d-grid justify-content-center align-content-center gap-4" *ngIf="loading[1]">
+        <div class="loading"></div>
+        <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
+    </div>
+    <div *ngIf="!loading[1]">
+        <div #listProject [attr.data-id]="list.id" *ngFor="let list of project" class="position-relative">
+            <div class="d-flex position-absolute w-auto end-0" style="top: 10px;">
+                <button appHideElementByRol (click)="editar(listProject)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
+                    <span class="material-icons">edit</span>
+                </button>
+                <button appHideElementByRol (click)="eliminar(listProject)" class="d-grid justify-content-center align-content-center btn btn-outline-light border-0 rounded-pill">
+                    <span class="material-icons">delete</span>
+                </button>
+            </div>
+            <hr class="mt-2 mb-3 bg-white" style="height: 2px;" />
+            <div class="container">
+                <h5 class="text-white">{{list.titulo}}</h5>
+                <p class="text-white">
+                    <small>{{list.descripcion}}</small>
+                </p>
+            </div>
+            <div class="text-center">
+                <a [attr.href]="list.repositorio" target="_blank">
+                    <img [attr.src]="list.imagen" [attr.alt]="list.titulo" class="img-thumbnail tada" width="700px" />
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -36,7 +42,7 @@
         {{errorMessage | json}}
     </ngb-alert>
 </p>
-<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading">
+<div class="bloquear-fondo d-grid justify-content-center align-content-center gap-4" *ngIf="loading[0]">
     <div class="loading"></div>
     <h3 class="text-white m-0" style="text-shadow: -2px -1px 2px white;">[ loading... ]</h3>
 </div>

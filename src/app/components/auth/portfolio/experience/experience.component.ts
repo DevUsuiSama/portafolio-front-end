@@ -54,7 +54,7 @@ export class ExperienceComponent implements OnInit {
     class: 'mt-2',
     disabled: true
   }];
-  loading: boolean = false;
+  loading: boolean[] = [false, false];
 
   @ViewChild('modalExperience', { static: false }) modalExperience?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -64,11 +64,14 @@ export class ExperienceComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/experience/get_experience/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         this.experience = res;
       },
       error: () => {
+        this.loading[1] = false;
         console.error('Experience: Request failed with error');
       },
       complete: () => {
@@ -136,7 +139,7 @@ export class ExperienceComponent implements OnInit {
       }
 
       if (this.errorMessage === '') {
-        this.loading = true;
+        this.loading[0] = true;
         document.body.style.overflowY = 'hidden';
         this.fetch.postServer(`api/portfolio/experience/save/${USERNAME}`, {
           url: AUX_EXPERIENCE.url,
@@ -146,7 +149,7 @@ export class ExperienceComponent implements OnInit {
           fechaFinal: AUX_EXPERIENCE.fechaFinal
         }).subscribe({
           next: (data) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             this.successMessage = data.message;
             this.consultarTablaExperiencia();
@@ -154,7 +157,7 @@ export class ExperienceComponent implements OnInit {
             MODAL?.close('Close click');
           },
           error: (error) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             console.error('Experience: Request failed with error');
             this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -225,7 +228,7 @@ export class ExperienceComponent implements OnInit {
       }
 
       if (this.errorMessage === '') {
-        this.loading = true;
+        this.loading[0] = true;
         document.body.style.overflowY = 'hidden';
 
         this.fetch.putServer(`api/portfolio/experience/update/${ID}`, {
@@ -236,7 +239,7 @@ export class ExperienceComponent implements OnInit {
           fechaFinal: AUX_EXPERIENCE.fechaFinal
         }).subscribe({
           next: (data) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             this.successMessage = data.message;
             this.consultarTablaExperiencia();
@@ -244,7 +247,7 @@ export class ExperienceComponent implements OnInit {
             MODAL?.close('Close click');
           },
           error: (error) => {
-            this.loading = false;
+            this.loading[0] = false;
             document.body.style.overflowY = 'scroll';
             console.error('Experience: Request failed with error');
             this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;
@@ -260,18 +263,18 @@ export class ExperienceComponent implements OnInit {
 
   eliminar(element: HTMLDivElement): void {
     const ID: number = Number(element.getAttribute('data-id'));
-    this.loading = true;
+    this.loading[0] = true;
     document.body.style.overflowY = 'hidden';
     this.fetch.deleteServer(`api/portfolio/experience/delete/${ID}`).subscribe({
       next: (data) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         this.successMessage = data.message;
         this.consultarTablaExperiencia();
         this._success.next('');
       },
       error: (error) => {
-        this.loading = false;
+        this.loading[0] = false;
         document.body.style.overflowY = 'scroll';
         console.error('Experience: Request failed with error');
         this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

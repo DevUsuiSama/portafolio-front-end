@@ -18,7 +18,7 @@ export class DetailComponent implements OnInit {
   detail: Detail = new Detail();;
   errorMessage: string = '';
   successMessage: string = '';
-  loading: boolean = false;
+  loading: boolean[] = [false, false];
 
   @ViewChild('editDetail', { static: false }) editDetail?: ModalComponent;
   @ViewChild('dangerAlert', { static: false }) dangerAlert?: NgbAlert;
@@ -41,8 +41,10 @@ export class DetailComponent implements OnInit {
     const ROUTE_PARAM = this.route.snapshot.paramMap;
     const USERNAME: string | any = ROUTE_PARAM.get('username');
 
+    this.loading[1] = true;
     this.fetch.getServer(`api/portfolio/detail/get_detail/${USERNAME}`).subscribe({
       next: (res: any) => {
+        this.loading[1] = false;
         if (res.nombre !== null) {
           this.detail.nombre = res.nombre;
           this.detail.apellido = res.apellido;
@@ -51,6 +53,7 @@ export class DetailComponent implements OnInit {
         }
       },
       error: () => {
+        this.loading[1] = false;
         console.error('Detail: Request failed with error');
       },
       complete: () => {
@@ -101,7 +104,7 @@ export class DetailComponent implements OnInit {
       const USERNAME: string | any = ROUTE_PARAM.get('username');
       console.log(form);
 
-      this.loading = true;
+      this.loading[0] = true;
       document.body.style.overflowY = 'hidden';
 
       this.fetch.postServer('api/portfolio/detail/save', {
@@ -112,7 +115,7 @@ export class DetailComponent implements OnInit {
         ubicacion: form.get('ubicacion').value
       }).subscribe({
         next: (data) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           this.successMessage = data.message;
           this.detail.nombre = form.get('nombre').value;
@@ -123,7 +126,7 @@ export class DetailComponent implements OnInit {
           MODAL?.close('Close click');
         },
         error: (error) => {
-          this.loading = false;
+          this.loading[0] = false;
           document.body.style.overflowY = 'scroll';
           console.error('Detail: Request failed with error');
           this.errorMessage = error.error.status + " " + error.error.error + " " + error.error.message;

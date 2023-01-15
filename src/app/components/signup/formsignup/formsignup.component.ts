@@ -71,7 +71,7 @@ export class FormSignupComponent implements OnInit {
                     title: 'Administrador',
                     routerLink: ['/panel']
                   }, {
-                    title: 'Usuario',
+                    title: 'Portfolio',
                     routerLink: ['/portfolio', JSON.parse(sessionStorage['currentUser']).username]
                   }]);
                   this.modal?.openVerticallyCentered(this.modal.content);
