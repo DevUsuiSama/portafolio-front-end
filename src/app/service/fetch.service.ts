@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BASE_URL } from './baseurl';
+import { ENVIRONMENT } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FetchService {
-  private baseUrl = BASE_URL;
+  private baseUrl = ENVIRONMENT.urlRemote;
 
   constructor(private http: HttpClient) { }
 
